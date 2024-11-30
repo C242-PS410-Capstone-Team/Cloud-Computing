@@ -1,0 +1,5 @@
+## Usage/Examples
+
+```
+/api/register
+```
