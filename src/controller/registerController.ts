@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import bcrypt from "bcrypt";
-import { UserTypes } from "../types/interfaces";
-import { v4 as uuidv4 } from "uuid";
+import { CreateUserTypes } from "../types/interfaces";
 import userDbCollection from "../utils/firestore";
+import { v4 as uuidv4 } from "uuid";
 import {
   validateEmail,
   validatePassword,
@@ -18,13 +18,13 @@ const registerUser = async (
   try {
     // Validate email and password input
     if (!email || !password) {
-      res.status(400).json({ message: "Email and password are required" });
+      res.status(400).json({ message: "Email and password are required." });
       return;
     }
 
     // Validate email format
     if (!validateEmail(email)) {
-      res.status(400).json({ message: "Invalid email format" });
+      res.status(400).json({ message: "Invalid email format." });
       return;
     }
 
@@ -43,29 +43,31 @@ const registerUser = async (
       .where("email", "==", email)
       .get();
     if (!existingUserSnapshot.empty) {
-      res.status(400).json({ message: "User  already exists" });
-      return next();
+      res.status(400).json({ message: "User  already exists." });
+      return;
     }
 
     // Create user object
-    const newUser: UserTypes = {
+    const newUser: CreateUserTypes = {
       id: uuidv4(),
       email,
       password: hashedPassword,
     };
 
-    // Save user to database
-    await userDbCollection.doc(newUser.id).set(newUser);
+    // Save user to database with email as document ID
+    await userDbCollection.doc(newUser.email).set(newUser);
 
     // Respond with the created user
     res.status(201).json({
-      id: newUser.id,
-      email: newUser.email,
-      message: "User  registered successfully",
+      message: "User  registered successfully.",
+      user: {
+        id: newUser.id,
+        email: newUser.email,
+      },
     });
   } catch (error) {
     console.error("Error registering user:", error);
-    return next(error); // Use next for centralized error handling
+    next(error);
   }
 };
 

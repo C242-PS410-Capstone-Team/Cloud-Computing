@@ -1,5 +1,6 @@
 import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
+import bodyParser from "body-parser";
 
 import errorHandler from "./middlewares/errorHandler";
 import routes from "./routes/routes";
@@ -8,6 +9,7 @@ dotenv.config();
 const app: Express = express();
 const port = process.env.PORT;
 
+app.use(bodyParser.json());
 app.use(express.json());
 app.use("/api", routes);
 

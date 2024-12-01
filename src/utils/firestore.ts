@@ -1,9 +1,14 @@
 import { Firestore } from "@google-cloud/firestore";
+import dotenv from "dotenv";
 
-const firestoreInstance = new Firestore({
-  projectId: "testing-443402",
-  keyFilename: "service-key.json",
+dotenv.config();
+
+// Create a Firestore instance
+const firestore = new Firestore({
+  projectId: process.env.PROJECT_ID,
+  keyFilename: process.env.KEY_FILENAME,
 });
-const userDbCollection = firestoreInstance.collection("users");
+
+const userDbCollection = firestore.collection("users");
 
 export default userDbCollection;

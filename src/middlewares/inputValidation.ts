@@ -7,25 +7,30 @@ export const validateEmail = (email: string): boolean => {
 // Function to validate password
 export const validatePassword = (password: string): true | string => {
   const minLength = 8; // Minimum length for the password
-  const hasUpperCase = /[A-Z]/.test(password); // At least one uppercase letter
-  const hasLowerCase = /[a-z]/.test(password); // At least one lowercase letter
-  const hasNumbers = /\d/.test(password); // At least one number
-  const hasSpecialChars = /[!@#$%^&*(),.?":{}|<>]/.test(password); // At least one special character
+  const passwordCriteria = [
+    {
+      regex: /[A-Z]/,
+      message: "Password must contain at least one uppercase letter.",
+    },
+    {
+      regex: /[a-z]/,
+      message: "Password must contain at least one lowercase letter.",
+    },
+    { regex: /\d/, message: "Password must contain at least one number." },
+    {
+      regex: /[!@#$%^&*(),.?":{}|<>]/,
+      message: "Password must contain at least one special character.",
+    },
+  ];
 
   if (password.length < minLength) {
-    return "Password must be at least 8 characters.";
+    return `Password must be at least ${minLength} characters.`;
   }
-  if (!hasUpperCase) {
-    return "Password must contain at least one uppercase letter.";
-  }
-  if (!hasLowerCase) {
-    return "Password must contain at least one lowercase letter.";
-  }
-  if (!hasNumbers) {
-    return "Password must contain at least one number.";
-  }
-  if (!hasSpecialChars) {
-    return "Password must contain at least one special character.";
+
+  for (const { regex, message } of passwordCriteria) {
+    if (!regex.test(password)) {
+      return message;
+    }
   }
 
   return true;
