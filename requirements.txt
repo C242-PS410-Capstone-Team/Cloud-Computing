@@ -1,0 +1,10 @@
+
+Flask
+tensorflow
+tensorflow_decision_forests
+rasterio
+numpy
+pandas
+scikit-learn
+scipy
+gunicorn

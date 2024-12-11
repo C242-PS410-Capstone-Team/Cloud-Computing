@@ -1,0 +1,12 @@
+runtime: python39
+
+handlers:
+- url: /static
+  static_dir: static
+
+- url: /.*
+  script: auto
+
+env_variables:
+  FLASK_ENV: development
+  FLASK_APP: backend.py
