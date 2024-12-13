@@ -1,10 +1,10 @@
-
 Flask
-tensorflow
-tensorflow_decision_forests
 rasterio
 numpy
 pandas
+tensorflow
+tensorflow_decision_forests
 scikit-learn
-scipy
+firebase-admin
+python-dotenv
 gunicorn

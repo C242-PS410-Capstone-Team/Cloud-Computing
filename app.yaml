@@ -1,4 +1,6 @@
-runtime: python39
+runtime: python311
+
+entrypoint: gunicorn --timeout 500 -b :$PORT backend:app
 
 handlers:
 - url: /static
@@ -10,3 +12,6 @@ handlers:
 env_variables:
   FLASK_ENV: development
   FLASK_APP: backend.py
+  BUCKET_URL: "capstone-a4973.firebasestorage.app"
+
+instance_class: F4_1G
